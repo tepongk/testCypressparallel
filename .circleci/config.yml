@@ -9,7 +9,7 @@ jobs:
           ## this enables colors in the output
           TERM: xterm
     working_directory: ~/app
-    parallelism: 3
+    parallelism: 4
     steps:
       - checkout
       - restore_cache:
@@ -23,11 +23,6 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run:
-          name: Running E2E tests with JUnit reporter
-          command: npm run test-junit
-      - store_test_results:
-          path: junit-results
       - run:
           name: Running E2E tests with multiple reporters
           command: npm run test-multiple
