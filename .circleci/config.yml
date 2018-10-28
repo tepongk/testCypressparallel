@@ -1,6 +1,7 @@
+version: 2
 jobs:
   # give any name to job
-  4x-electron:
+  build:
     # use Cypress built Docker image with Node 10 and npm 6
     docker:
       - image: cypress/base:10
