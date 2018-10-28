@@ -1,17 +1,29 @@
 version: 2
 jobs:
-  # give any name to job
-  build:
-    # use Cypress built Docker image with Node 10 and npm 6
+  test:
     docker:
       - image: cypress/base:10
-    # tells CircleCI to execute this job on 4 machines simultaneously
-    parallelism: 4
     steps:
       - checkout
-      - npm install --save-dev cypress
-      # note: omitting caching for brevity
-      # quickly install NPM dependencies
-      # - npm install
-      # load balance all tests across 4 CI machines
-      - $(npm bin)/cypress run --parallel
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "package.json" }}
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run: npm run cy:verify
+      - save_cache:
+          key: cache-{{ checksum "package.json" }}
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run:
+          command: npm start
+          background: true
+      - run: npm run e2e:record
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
