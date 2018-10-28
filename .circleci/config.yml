@@ -3,6 +3,7 @@ jobs:
   test:
     docker:
       - image: cypress/base:10
+    parallelism: 2
     steps:
       - checkout
       - restore_cache:
@@ -20,7 +21,7 @@ jobs:
       - run:
           command: npm start
           background: true
-      - run: npm run e2e:record
+      - run: npm run e2e:record:parallel
 
 workflows:
   version: 2
