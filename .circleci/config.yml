@@ -9,6 +9,7 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - npm install --save-dev cypress
       # note: omitting caching for brevity
       # quickly install NPM dependencies
       # - npm install
